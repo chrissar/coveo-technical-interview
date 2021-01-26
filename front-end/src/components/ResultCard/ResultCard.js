@@ -12,13 +12,10 @@ export default class ResultCard extends PureComponent {
         const { product } = this.props;
         if (!product) { return null; }
         return (
-            <Card>
+            <Card fluid>
                 <Image src={product.raw.tpthumbnailuri} wrapped ui={false} label={{
-                    // color: 'red',
                     content: <CountryFlag height={'8'} countryCode={countriesUtils.getCountryCode(product.raw.tppays)} />,
-                    // icon: 'exclamation circle',
                     ribbon: 'right',
-                    // attached: 'bottom right'
                 }} />
                 <Card.Content>
                     <Card.Header>{product.title}</Card.Header>

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Label, Pagination, Segment } from 'semantic-ui-react';
 import { ResultCard } from '../../components';
 import { Countries } from '../../utils';
 import QueryController from '../../controllers/QueryController/QueryController';
@@ -8,30 +8,21 @@ let countriesUtils = new Countries();
 
 export default class Results extends PureComponent {
 
-    state = {
-        items: {},
+    static defaultProps = {
+        results: {},
     }
 
-    async componentDidMount() {
-        await this.renderResults();
-    }
-
-    async renderResults() {
-        let items;
-        try {
-            items = await queryController.get();
-            console.log(items);
-        } catch (e) {
-            console.log(e);
-        }
-        this.setState({ items });
+    countResults() {
+        const { results } = this.props;
+        if (!results || !results.totalCountFiltered) return 0;
+        return results.totalCountFiltered;
     }
 
     displayResults() {
-        const { items } = this.state;
+        const { results } = this.props;
         let render = [];
-        if (Object.keys(items).length > 0 && items.constructor === Object) {
-            render = items.results.map((result, index) => {
+        if (Object.keys(results).length > 0 && results.constructor === Object) {
+            render = results.results.map((result, index) => {
                 return (
                     <Grid.Column key={index}>
                         <ResultCard product={result} />
@@ -44,9 +35,12 @@ export default class Results extends PureComponent {
 
     render() {
         return (
-            <Grid columns={3} container doubling stackable padded>
-                {this.displayResults()}
-            </Grid>
+            <>
+                <Label content={`${this.countResults()} résultat(s)`} />
+                <Grid columns={4} container stackable padded centered>
+                    {this.displayResults()}
+                </Grid>
+            </>
         )
     }
 }

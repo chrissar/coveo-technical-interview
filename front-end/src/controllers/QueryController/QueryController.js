@@ -1,17 +1,18 @@
-import React from 'react';
 import http from 'http';
+import queryString from 'query-string';
 
 export default class QueryController {
-    async get() {
+    async get(body) {
         let results;
         const options = {
             hostname: 'localhost',
             port: 3001,
-            path: '/search',
+            path: '/search?' + queryString.stringify(body),
             method: 'GET',
+            query: '',
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+                "Access-Control-Allow-Methods": "OPTIONS, GET",
             }
         };
         try {
