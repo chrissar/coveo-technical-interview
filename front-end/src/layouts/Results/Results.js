@@ -10,6 +10,7 @@ export default class Results extends PureComponent {
 
     static defaultProps = {
         results: {},
+        updateSelection: () => { },
     }
 
     countResults() {
@@ -19,13 +20,13 @@ export default class Results extends PureComponent {
     }
 
     displayResults() {
-        const { results } = this.props;
+        const { results, updateSelection } = this.props;
         let render = [];
         if (Object.keys(results).length > 0 && results.constructor === Object) {
             render = results.results.map((result, index) => {
                 return (
                     <Grid.Column key={index}>
-                        <ResultCard product={result} />
+                        <ResultCard product={result} updateSelection={updateSelection} />
                     </Grid.Column>
                 );
             })

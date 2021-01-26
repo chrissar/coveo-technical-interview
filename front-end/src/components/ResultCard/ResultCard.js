@@ -7,12 +7,13 @@ let countriesUtils = new Countries();
 export default class ResultCard extends PureComponent {
     static defaultProps = {
         product: undefined,
+        updateSelection: () => { }
     }
     render() {
-        const { product } = this.props;
+        const { product, updateSelection } = this.props;
         if (!product) { return null; }
         return (
-            <Card fluid>
+            <Card fluid link onClick={() => updateSelection(product)}>
                 <Image src={product.raw.tpthumbnailuri} wrapped ui={false} label={{
                     content: <CountryFlag height={'8'} countryCode={countriesUtils.getCountryCode(product.raw.tppays)} />,
                     ribbon: 'right',
