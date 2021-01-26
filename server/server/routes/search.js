@@ -1,14 +1,15 @@
 import express from 'express';
 import https from 'https';
+import cors from 'cors';
 let router = express.Router();
-
-router.get('/', function (req, res, next) {
+let c = cors();
+router.get('/', c, function (req, res, next) {
 
   const API_URL = process.env.COVEO_API_URL;
   const COVEO_ACCESS_TOKEN = process.env.COVEO_ACCESS_TOKEN;
 
   new Promise((resolve, reject) => {
-    https.get(`${API_URL}search?access_token=${COVEO_ACCESS_TOKEN}&q=Rousse`, (res) => {
+    https.get(`${API_URL}search?access_token=${COVEO_ACCESS_TOKEN}`, (res) => {
       let { statusCode, message } = res;
       let contentType = res.headers['content-type'];
 
