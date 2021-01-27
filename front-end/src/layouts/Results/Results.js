@@ -38,7 +38,7 @@ export default class Results extends PureComponent {
         return (
             <>
                 <Label content={`${this.countResults()} résultat(s)`} />
-                <Grid columns={4} container stackable padded centered>
+                <Grid columns={5} container stackable padded centered>
                     {this.displayResults()}
                 </Grid>
             </>

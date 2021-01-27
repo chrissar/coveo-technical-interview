@@ -1,8 +1,6 @@
 export default class QueryBuilder {
-    limit = 12;
+    limit = 10;
     page = 1;
-    criteria = '@tpmillesime';
-    direction = 'ascending';
 
     getLimit() {
         return this.limit;
@@ -32,16 +30,37 @@ export default class QueryBuilder {
         this.direction = direction;
     }
 
+    setAdvancedQuery(field, query) {
+        if (!field && !query) { this.aq = undefined; }
+        else { this.aq = `(${field}==("${query}"))`; }
+    }
+
     build() {
         return {
             numberOfResults: this.limit,
             firstResult: this.calculateFirstResult(this.limit, this.page),
             q: this.query,
-            sortCriteria: (`${this.criteria} ${this.direction || ''}`).trim(),
+            aq: this.aq,
+            sortCriteria: this.buildCriteria(),
+        }
+    }
+
+    getCountries() {
+        return {
+            numberOfResults: 0,
+            q: '@sysuri',
+            maximumNumberOfValues: 20,
+            sortCriteria: 'occurences',
+            field: "@tppays",
         }
     }
 
     calculateFirstResult(limit = 1, page = 1) {
         return limit * (page - 1);
+    }
+
+    buildCriteria() {
+        if (!this.criteria && !this.direction) return;
+        return `${this.criteria} ${this.direction || ''}`.trim();
     }
 }

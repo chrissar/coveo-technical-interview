@@ -6,7 +6,7 @@ export default class QueryController {
         let results;
         const options = {
             hostname: 'localhost',
-            port: 3001,
+            port: 80,
             path: '/search',
             method: 'POST',
             body: JSON.stringify(body),

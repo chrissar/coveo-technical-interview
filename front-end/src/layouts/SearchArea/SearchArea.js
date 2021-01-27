@@ -44,13 +44,13 @@ export default class SearchArea extends PureComponent {
         return (
             <Menu fixed='top' inverted>
                 <Container>
-                    <Menu.Item as='a' header>
-                        {/* <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} /> */}
+                    <Menu.Item header>
                         {'SAQ'}
                     </Menu.Item>
                     <Menu.Item>
-                        <Input style={{ width: '300px' }}>
+                        <Input style={{ width: '1000px' }}>
                             <input
+                                placeholder={'Recherche...'}
                                 defaultValue={inputValue}
                                 value={inputValue}
                                 onChange={(e) => { this.updateInputValue(e) }}
@@ -58,11 +58,6 @@ export default class SearchArea extends PureComponent {
                             />
                             <Button icon='search' onClick={() => onChange({ inputValue })}></Button>
                         </Input>
-                    </Menu.Item>
-                    <Menu.Item position={'right'}>
-                        <Icon name={'filter'}>
-                            <Label floating size={'tiny'} circular content={'1'} />
-                        </Icon>
                     </Menu.Item>
                 </Container>
             </Menu >

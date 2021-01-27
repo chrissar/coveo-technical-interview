@@ -4,4 +4,9 @@ services:
     build: .
     ports:
       - "3001:3001"
+    networks:
+      - some-net
     command: npm start
+networks:
+  some-net:
+    driver: bridge

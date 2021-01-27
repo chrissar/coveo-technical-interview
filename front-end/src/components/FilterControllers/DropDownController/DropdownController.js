@@ -6,13 +6,23 @@ export default class DropdownController extends PureComponent {
         options: [
             {
                 key: 0,
-                text: 12,
-                value: 12,
+                text: 10,
+                value: 10,
             },
             {
                 key: 1,
-                text: 24,
-                value: 24,
+                text: 25,
+                value: 25,
+            },
+            {
+                key: 2,
+                text: 50,
+                value: 50,
+            },
+            {
+                key: 3,
+                text: 100,
+                value: 100,
             },
         ],
         compact: true,
@@ -20,7 +30,7 @@ export default class DropdownController extends PureComponent {
     }
 
     updateValue(e, { value }) {
-        const {onChange} = this.props;
+        const { onChange } = this.props;
         onChange(value);
     }
 
@@ -30,6 +40,7 @@ export default class DropdownController extends PureComponent {
             <Dropdown
                 compact={compact}
                 selection
+                fluid
                 options={options}
                 defaultValue={options[0].value}
                 onChange={(e, target) => this.updateValue(e, target)}
