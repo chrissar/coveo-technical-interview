@@ -1,7 +1,0 @@
-version: "3"
-services:
-  coveo-api:
-    build: .
-    ports:
-      - "3001:3001"
-    command: npm start
