@@ -1,0 +1,23 @@
+version: "3"
+services:
+  coveo-api:
+    build:
+      context: './server'
+    ports:
+      - "3001:3001"
+    networks:
+      - some-net
+    command: npm start
+  coveo-front:
+    depends_on:
+      - coveo-api
+    build:
+      context: './front-end'
+    ports:
+      - "80:3000"
+    command: npm start
+    networks:
+      - some-net
+networks:
+  some-net:
+    driver: bridge

@@ -26,7 +26,6 @@ export default class Main extends PureComponent {
 
     async componentDidMount() {
         await this.renderResults();
-        await this.getCountryList();
     }
 
     async updateQuery(query) {
