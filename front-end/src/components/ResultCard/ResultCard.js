@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Icon, Image, Label } from 'semantic-ui-react'
+import { Grid, Card, Icon, Image, Label, Rating } from 'semantic-ui-react'
 import CountryFlag from '../CountryFlag';
 import { Countries } from '../../utils';
 let countriesUtils = new Countries();
@@ -27,10 +27,20 @@ export default class ResultCard extends PureComponent {
                         {/* Matthew is a musician living in Nashville. */}
                     </Card.Description>
                 </Card.Content>
+                <Card.Content extra textAlign="center">
+                    <Label.Group color='black' size='mini'>
+                        <Label>{product.raw.tpformat}</Label>
+                        <Label>{product.raw.tppays}</Label>
+                        <Label>{product.raw.tpcategorie}</Label>
+                    </Label.Group>
+                </Card.Content>
                 <Card.Content extra>
-                    {/* <Label icon='globe' size='tiny'>
-                         <CountryFlag height={'8'} countryCode={countriesUtils.getCountryCode(product.raw.tppays)} />
-                    </Label> */}
+                    <Grid columns={2} divided>
+                        <Grid.Row>
+                            <Grid.Column><Rating defaultRating={product.rating} maxRating={5} disabled /></Grid.Column>
+                            <Grid.Column textAlign='right'><Label>{product.raw.tpprixnormal}</Label></Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Card.Content>
             </Card>
         )

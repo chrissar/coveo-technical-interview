@@ -5,58 +5,59 @@ import cors from 'cors';
 import queryString from 'query-string';
 let router = express.Router();
 let c = cors();
-router.get('/', c, function (req, res, next) {
+router.post('/', c, function (req, res, next) {
+  let body = req.body;
+  const options = {
+    hostname: process.env.COVEO_API_URL,
+    path: '/rest/search',
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+      "Authorization": `Bearer ${process.env.COVEO_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
+      'Content-Length': JSON.stringify(body).length,
+    }
+  }
 
-  const API_URL = process.env.COVEO_API_URL;
-  const COVEO_ACCESS_TOKEN = process.env.COVEO_ACCESS_TOKEN;
-  let queryObject = url.parse(req.url, true).query;
-  queryObject = queryString.stringify(queryObject);
+  return new Promise((resolve, reject) => {
+    let request = https.request(options, res => {
+      let response = "";
 
-  new Promise((resolve, reject) => {
-    https.get(`${API_URL}search?access_token=${COVEO_ACCESS_TOKEN}&${queryObject}`, (res) => {
-      let { statusCode, message } = res;
-      let contentType = res.headers['content-type'];
+      console.log(options);
 
-      let error;
-
-      if (statusCode !== 200) {
-        error = new Error('Request Failed.\n' +
-          `Status Code: ${statusCode}\n` +
-          `Message: ${message}`);
-      } else if (!/^application\/json/.test(contentType)) {
-        error = new Error('Invalid content-type.\n' +
-          `Expected application/json but received ${contentType}`);
+      if (200 < res.statusCode && 300 > res.statusCode) {
+        return resolve(res.headers);
       }
 
-      if (error) {
-        console.error(error.message);
-        // consume response data to free up memory
-        res.resume();
+      if (400 <= res.statusCode) {
+        let err = new Error(response);
+        err.statusCode = res.statusCode;
+        return reject(err);
       }
 
-      res.setEncoding('utf8');
-      let rawData = '';
-
-      res.on('data', (chunk) => {
-        rawData += chunk;
+      res.on("data", function (chunk) {
+        response += chunk;
       });
 
-      res.on('end', () => {
-        try {
-          const parsedData = JSON.parse(rawData);
-          resolve(parsedData);
-        } catch (e) {
-          reject(e.message);
-        }
+      res.on("end", () => {
+        let reply = JSON.parse(response);
+        resolve(reply);
       });
-    }).on('error', (e) => {
-      reject(`Got error: ${e.message}`);
     });
 
+    request.write(JSON.stringify(body));
+
+    request.on('error', function (err) {
+      return reject(err);
+    });
+
+    request.end();
+  }).catch((e) => {
+    console.log(e);
   }).then(response => {
     res.send(response);
-  }).catch(error => {
-    res.send(error);
   })
 });
 

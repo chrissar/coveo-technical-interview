@@ -8,6 +8,7 @@ import {
     Menu,
     Input,
     Icon,
+    Label,
 } from 'semantic-ui-react';
 
 export default class SearchArea extends PureComponent {
@@ -59,7 +60,9 @@ export default class SearchArea extends PureComponent {
                         </Input>
                     </Menu.Item>
                     <Menu.Item position={'right'}>
-                        <Icon name={'filter'} />
+                        <Icon name={'filter'}>
+                            <Label floating size={'tiny'} circular content={'1'} />
+                        </Icon>
                     </Menu.Item>
                 </Container>
             </Menu >
